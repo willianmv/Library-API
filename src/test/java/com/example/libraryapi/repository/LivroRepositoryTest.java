@@ -92,7 +92,65 @@ class LivroRepositoryTest {
         autor.setLivros(livrosDoAutor);
 
         autor.getLivros().forEach(System.out::println);
-
     }
+
+    @Test
+    void pesquisaPorTituloTeste(){
+        List<Livro> listaLivro = livroRepository.findByTitulo("Natureza II");
+        listaLivro.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorIsbnTeste(){
+        List<Livro> listaLivro = livroRepository.findByIsbn("94787-8754");
+        listaLivro.forEach(System.out::println);
+    }
+
+    @Test
+    void pesquisaPorTituloEPrecoTeste(){
+        List<Livro> listaLivro = livroRepository.findByTituloAndPreco("BUU!", BigDecimal.valueOf(145));
+        listaLivro.forEach(System.out::println);
+    }
+
+    @Test
+    void listarLivrosComJPQL(){
+        List<Livro> result = livroRepository.listarTodos();
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void listarAutoresComJPQL(){
+        List<Autor> result = livroRepository.listarAutoresDosLivros();
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void lsitarGenerosLivrosAutoresBrasileiros(){
+        List<String> result = livroRepository.listarGenerosAutoresBrasileiros();
+        result.forEach(System.out::println);
+    }
+
+    @Test
+    void listarPorGeneroQueryParam(){
+        List<Livro> livros = livroRepository.findByGenero(GeneroLivro.FICCAO, "dataPublicacao");
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    void listarPorGeneroPositionalParameters(){
+        List<Livro> livros = livroRepository.findByGeneroPositionalParameters(GeneroLivro.FICCAO, "dataPublicacao");
+        livros.forEach(System.out::println);
+    }
+
+    @Test
+    void deletePorGeneroTest(){
+        livroRepository.deleteByGenero(GeneroLivro.FANTASIA);
+    }
+
+    @Test
+    void updateDataPublicacaoTest(){
+        livroRepository.updateDataPublicacao(LocalDate.of(2000, 1, 1));
+    }
+
 
 }
