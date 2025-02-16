@@ -6,6 +6,7 @@ import com.example.libraryapi.exception.OperacaoNaoPermitidaException;
 import com.example.libraryapi.exception.RegistroDuplicadoException;
 import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.service.AutorService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -26,7 +27,7 @@ public class AutorController {
     }
 
     @PostMapping
-    public ResponseEntity<Object> salvar(@RequestBody AutorDTO autorDTO){
+    public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autorDTO){
         try{
             Autor autorEntidade = autorDTO.mapearParaAutor();
             autorService.salvar(autorEntidade);
@@ -82,7 +83,7 @@ public class AutorController {
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade){
-        List<Autor> autoresPesquisados = autorService.pesquisa(nome, nacionalidade);
+        List<Autor> autoresPesquisados = autorService.pesquisaByExample(nome, nacionalidade);
         List<AutorDTO> list = autoresPesquisados
                 .stream()
                 .map(autor -> new AutorDTO(
@@ -95,7 +96,7 @@ public class AutorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizar(@PathVariable String id, @RequestBody AutorDTO autorDTO){
+    public ResponseEntity<Object> atualizar(@PathVariable String id, @RequestBody @Valid AutorDTO autorDTO){
         try{
             UUID autorId = UUID.fromString(id);
             Optional<Autor> autorOptional = autorService.obterPorId(autorId);
