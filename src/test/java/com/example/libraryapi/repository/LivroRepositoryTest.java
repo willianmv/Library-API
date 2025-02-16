@@ -48,7 +48,7 @@ class LivroRepositoryTest {
         livro.setDataPublicacao(LocalDate.of(1975,10, 31));
 
         Autor autor = new Autor();
-        autor.setName("Maria");
+        autor.setNome("Maria");
         autor.setNacionalidade("Brasileiro");
         autor.setDataNascimento(LocalDate.of(1951, 1, 27));
 
@@ -80,7 +80,7 @@ class LivroRepositoryTest {
         Livro livro = livroRepository.findById(id).orElse(null);
         System.out.println("Informações do Livro:");
         System.out.println("Título: " + livro.getTitulo());
-        System.out.println("Autor: " + livro.getAutor().getName());
+        System.out.println("Autor: " + livro.getAutor().getNome());
     }
 
     @Test
