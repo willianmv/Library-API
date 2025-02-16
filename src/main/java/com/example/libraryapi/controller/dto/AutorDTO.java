@@ -28,5 +28,4 @@ public record AutorDTO(UUID id,
         return autor;
     }
 
-
 }
