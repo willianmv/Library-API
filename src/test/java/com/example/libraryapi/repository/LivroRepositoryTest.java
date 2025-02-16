@@ -31,7 +31,7 @@ class LivroRepositoryTest {
         livro.setDataPublicacao(LocalDate.of(1980,1, 2) );
 
         Autor autor = autorRepository
-                .findById(UUID.fromString("bea6e171-ba23-4eab-9385-dbeeedbe397e"))
+                .findById(UUID.fromString("6f12ece9-cae0-438b-bec4-05528e320d88"))
                 .orElse(null);
 
         livro.setAutor(autor);
@@ -85,7 +85,7 @@ class LivroRepositoryTest {
 
     @Test
     void listarLivrosAutor(){
-        UUID id = UUID.fromString("5357f48f-364a-4e4a-9a21-6ad296e3fb27");
+        UUID id = UUID.fromString("6f12ece9-cae0-438b-bec4-05528e320d88");
         Autor autor = autorRepository.findById(id).orElse(null);
 
         List<Livro> livrosDoAutor = livroRepository.findByAutor(autor);
