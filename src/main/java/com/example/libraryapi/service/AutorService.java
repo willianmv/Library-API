@@ -5,6 +5,7 @@ import com.example.libraryapi.model.Autor;
 import com.example.libraryapi.repository.AutorRepository;
 import com.example.libraryapi.repository.LivroRepository;
 import com.example.libraryapi.validator.AutorValidator;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
@@ -14,17 +15,12 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class AutorService {
 
     private final AutorRepository autorRepository;
     private final LivroRepository livroRepository;
     private final AutorValidator autorValidator;
-
-    public AutorService(AutorRepository autorRepository, LivroRepository livroRepository, AutorValidator autorValidator) {
-        this.autorRepository = autorRepository;
-        this.autorValidator = autorValidator;
-        this.livroRepository = livroRepository;
-    }
 
     public Autor salvar(Autor autor){
         autorValidator.validar(autor);
