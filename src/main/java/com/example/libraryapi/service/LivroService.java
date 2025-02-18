@@ -4,6 +4,7 @@ import com.example.libraryapi.model.GeneroLivro;
 import com.example.libraryapi.model.Livro;
 import com.example.libraryapi.repository.LivroRepository;
 import com.example.libraryapi.repository.specs.LivroSpecs;
+import com.example.libraryapi.validator.LivroValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import java.util.UUID;
 public class LivroService {
 
     private final LivroRepository livroRepository;
+    private final LivroValidator livroValidator;
 
 
     public Livro salvar(Livro livro) {
+        livroValidator.validarLivro(livro);
         return livroRepository.save(livro);
     }
 
@@ -55,5 +58,13 @@ public class LivroService {
         }
 
         return livroRepository.findAll(specs);
+    }
+
+    public void atualizar(Livro livro) {
+        if(livro.getId() == null){
+            throw new IllegalArgumentException("Para atualizar é necessário que o livro esteja cadastrado");
+        }
+        livroValidator.validarLivro(livro);
+        livroRepository.save(livro);
     }
 }

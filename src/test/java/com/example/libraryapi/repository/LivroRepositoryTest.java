@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootTest
@@ -102,8 +103,8 @@ class LivroRepositoryTest {
 
     @Test
     void pesquisaPorIsbnTeste(){
-        List<Livro> listaLivro = livroRepository.findByIsbn("94787-8754");
-        listaLivro.forEach(System.out::println);
+        Optional<Livro> livro = livroRepository.findByIsbn("94787-8754");
+        livro.ifPresent(System.out::println);
     }
 
     @Test
