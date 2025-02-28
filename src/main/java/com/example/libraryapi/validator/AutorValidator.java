@@ -12,7 +12,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class AutorValidator {
 
-    private AutorRepository autorRepository;
+    private final AutorRepository autorRepository;
 
     public void validar(Autor autor){
         if(existeAutorCadastrado(autor)){
