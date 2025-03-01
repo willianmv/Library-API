@@ -6,6 +6,7 @@ import lombok.Data;
 import org.hibernate.annotations.Type;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Entity
@@ -20,6 +21,12 @@ public class Usuario {
     private String login;
 
     private String senha;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Autor> autoresCadastrados;
+
+    @OneToMany(mappedBy = "usuario")
+    private Set<Livro> livrosCadastrados;
 
     @Type(ListArrayType.class)
     @Column(name = "roles", columnDefinition = "varchar[]")

@@ -3,11 +3,16 @@ package com.example.libraryapi.controller;
 import com.example.libraryapi.controller.dto.AutorDTO;
 import com.example.libraryapi.controller.mappers.AutorMapper;
 import com.example.libraryapi.model.Autor;
+import com.example.libraryapi.model.Usuario;
+import com.example.libraryapi.security.SecurityService;
 import com.example.libraryapi.service.AutorService;
+import com.example.libraryapi.service.UsuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
