@@ -7,6 +7,7 @@ import com.example.libraryapi.service.AutorService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,6 +24,7 @@ public class AutorController implements GenericController {
     private final AutorMapper autorMapper;
 
     @PostMapping
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Object> salvar(@RequestBody @Valid AutorDTO autorDTO) {
         Autor autorEntidade = autorMapper.toEntity(autorDTO);
         autorService.salvar(autorEntidade);
@@ -31,6 +33,7 @@ public class AutorController implements GenericController {
     }
 
     @GetMapping(value = "/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<AutorDTO> obterDetalhes(@PathVariable("id") String id) {
         UUID autorId = UUID.fromString(id);
         return autorService.obterPorId(autorId)
@@ -42,6 +45,7 @@ public class AutorController implements GenericController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> deletar(@PathVariable("id") String id) {
         UUID autorId = UUID.fromString(id);
         Optional<Autor> autorOptional = autorService.obterPorId(autorId);
@@ -54,18 +58,20 @@ public class AutorController implements GenericController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<List<AutorDTO>> pesquisar(
             @RequestParam(value = "nome", required = false) String nome,
             @RequestParam(value = "nacionalidade", required = false) String nacionalidade) {
-        List<Autor> autoresPesquisados = autorService.pesquisaByExample(nome, nacionalidade);
-        List<AutorDTO> list = autoresPesquisados
-                .stream()
-                .map(autorMapper::toDTO)
-                .toList();
-        return ResponseEntity.ok(list);
+                List<Autor> autoresPesquisados = autorService.pesquisaByExample(nome, nacionalidade);
+                List<AutorDTO> list = autoresPesquisados
+                    .stream()
+                    .map(autorMapper::toDTO)
+                    .toList();
+                    return ResponseEntity.ok(list);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('GERENTE')")
     public ResponseEntity<Void> atualizar(@PathVariable String id, @RequestBody @Valid AutorDTO autorDTO) {
         UUID autorId = UUID.fromString(id);
         Optional<Autor> autorOptional = autorService.obterPorId(autorId);

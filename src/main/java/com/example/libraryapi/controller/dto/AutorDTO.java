@@ -1,6 +1,6 @@
 package com.example.libraryapi.controller.dto;
 
-import com.example.libraryapi.model.Autor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -16,6 +16,7 @@ public record AutorDTO(
         String nome,
         @NotNull(message = "Campo obrigatório")
         @Past(message = "Não pode ser uma data futura")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate dataNascimento,
         @NotBlank(message = "Campo obrigatório")
         @Size(min = 2, max = 50, message = "Campo fora do tamanho padrão")

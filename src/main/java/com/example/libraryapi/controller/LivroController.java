@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -24,6 +25,7 @@ public class LivroController implements GenericController{
     private final LivroMapper livroMapper;
 
     @PostMapping
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<Void> salvar(@RequestBody @Valid CadastroLivroDTO cadastroLivroDTO){
         Livro livro = livroMapper.toEntity(cadastroLivroDTO);
         Livro livroSalvo = livroService.salvar(livro);
@@ -32,6 +34,7 @@ public class LivroController implements GenericController{
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<PesquisaLivroDTO> obterDetalhes(@PathVariable("id") String id){
         return livroService.obterPorId(UUID.fromString(id))
                 .map(livro -> {
@@ -41,6 +44,7 @@ public class LivroController implements GenericController{
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<Object> delete(@PathVariable("id") String id){
         return livroService.obterPorId(UUID.fromString(id))
                 .map(livro -> {
@@ -50,6 +54,7 @@ public class LivroController implements GenericController{
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<Page<PesquisaLivroDTO>> lista (
             @RequestParam(value = "isbn", required = false)
             String isbn,
@@ -73,10 +78,11 @@ public class LivroController implements GenericController{
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('OPERADOR', 'GERENTE')")
     public ResponseEntity<Object> atualizar(
             @PathVariable("id") String id,
             @RequestBody @Valid CadastroLivroDTO livroDTO){
-        return livroService.obterPorId(UUID.fromString(id))
+            return livroService.obterPorId(UUID.fromString(id))
                 .map(livro -> {
                     Livro entidadeAux = livroMapper.toEntity(livroDTO);
 

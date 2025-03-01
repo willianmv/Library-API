@@ -6,6 +6,7 @@ import com.example.libraryapi.exception.CampoInvalidoException;
 import com.example.libraryapi.exception.OperacaoNaoPermitidaException;
 import com.example.libraryapi.exception.RegistroDuplicadoException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -47,11 +48,17 @@ public class GlobalExceptionHandler {
                 "Erro de validação", List.of(new ErroCampo(e.getCampo(), e.getMessage())));
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErroResposta handleAccessDeniedException(AccessDeniedException e){
+        return new ErroResposta(HttpStatus.FORBIDDEN.value(), "Acesso Negado.", List.of());
+    }
+
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ErroResposta handleErrosNaoTratadosException(RuntimeException e){
         return new ErroResposta(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                "Erro inesperado. Entre em contato com a administração" + e.getMessage(), List.of());
+                "Erro inesperado. Entre em contato com a administração. " + e.getMessage(), List.of());
     }
 
 }
