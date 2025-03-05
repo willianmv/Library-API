@@ -18,9 +18,14 @@ public class Usuario {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Column
     private String login;
 
+    @Column
     private String senha;
+
+    @Column
+    private String email;
 
     @OneToMany(mappedBy = "usuario")
     private Set<Autor> autoresCadastrados;
