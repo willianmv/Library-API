@@ -28,10 +28,11 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(configurer ->
                         configurer.loginPage("/login").permitAll())
-                .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(authorize ->{
                     authorize.requestMatchers("/login").permitAll();
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
+                    authorize.requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger-resources/**",
+                            "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll();
                     authorize.anyRequest().authenticated();
                 })
                 .oauth2Login(oauth2 -> {
@@ -43,6 +44,18 @@ public class SecurityConfiguration {
                 .addFilterAfter(jwtCustomAuthenticationFilter, BearerTokenAuthenticationFilter.class)
                 .build();
     }
+
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer(){
+//        return web ->  web.ignoring().requestMatchers(
+//                  "/v2/api-docs/**",
+//                  "/v3/api-docs/**",
+//                  "/swagger-resources/**",
+//                  "/swagger-ui/index.html",
+//                  "/swagger-ui/**",
+//                  "/webjars/**"
+//          );
+//    }
 
     //Configura o prefixo ROLE
     @Bean
