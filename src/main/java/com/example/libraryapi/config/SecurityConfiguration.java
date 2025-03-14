@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                     authorize.requestMatchers(HttpMethod.POST, "/usuarios/**").permitAll();
                     authorize.requestMatchers("/v2/api-docs/**", "/v3/api-docs/**", "/swagger-resources/**",
                             "/swagger-ui.html", "/swagger-ui/**", "/webjars/**").permitAll();
+                    authorize.requestMatchers("/actuator/**").permitAll();
                     authorize.anyRequest().authenticated();
                 })
                 .oauth2Login(oauth2 -> {
